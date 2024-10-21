@@ -51,23 +51,23 @@ def get_records_data(folder_path, prefixes, suffix_order):
     csv_files = sorted([file for file in os.listdir(folder_path) if file.endswith('.csv')])
 
     # Sort files by prefixes and suffixes
-    for prefix in prefixes:
-        for suffix in suffix_order:
-            for file in csv_files:
-                if file.startswith(prefix) and suffix in file:
-                    full_path = os.path.join(folder_path, file)
-                    df = read_csv_file(full_path)
-                    
-                    if df is not None:
-                        # Determine the number of records or if the file is empty
-                        if isinstance(df, str) and df == 'empty':
-                            records_data.append(['empty file', file])  # Empty file without header
-                        else:
-                            num_records = len(df)  # Number of records
-                            records_data.append([num_records, file])
-                    else:
-                        records_data.append(['error reading file', file])  # If there was an error reading the file
-    
+    # TODO: Comment the fors for the prefix, suffix
+    # for prefix in prefixes:
+    #     for suffix in suffix_order:
+    for file in csv_files:
+        #if file.startswith(prefix) and suffix in file:
+        full_path = os.path.join(folder_path, file)
+        df = read_csv_file(full_path)
+        
+        if df is not None:
+            # Determine the number of records or if the file is empty
+            if isinstance(df, str) and df == 'empty':
+                records_data.append(['empty file', file])  # Empty file without header
+            else:
+                num_records = len(df)  # Number of records
+                records_data.append([num_records, file])
+        else:
+            records_data.append(['error reading file', file])  # If there was an error reading the file
     return records_data
 
 # Function to retrieve files with column mismatches, returning a matrix with three columns
@@ -107,14 +107,15 @@ def get_valid_files(folder_path, prefixes, suffix_order):
     # Get all CSV files
     csv_files = sorted([file for file in os.listdir(folder_path) if file.endswith('.csv')])
 
-    for prefix in prefixes:
-        for suffix in suffix_order:
-            for file in csv_files:
-                if file.startswith(prefix) and suffix in file:
-                    full_path = os.path.join(folder_path, file)
-                    df = read_csv_file(full_path)
-                    if isinstance(df, pd.DataFrame) and len(df) > 0:
-                        valid_files.append((file, df))  # Store file and DataFrame
+    # TODO: Comment the prefixes and suffix
+    # for prefix in prefixes:
+    #     for suffix in suffix_order:
+    for file in csv_files:
+        #if file.startswith(prefix) and suffix in file:
+        full_path = os.path.join(folder_path, file)
+        df = read_csv_file(full_path)
+        if isinstance(df, pd.DataFrame) and len(df) > 0:
+            valid_files.append((file, df))  # Store file and DataFrame
     
     return valid_files
 

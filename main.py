@@ -39,12 +39,14 @@ def main():
         selected_folder_name = os.path.basename(selected_path)
 
         # Get file records
+        # TODO: Comment the line for no using
         records_data = get_records_data(selected_path, prefixes, suffix_order)
         
         # Get files with column mismatches
         mismatch_files = get_mismatch_files(selected_path, expected_columns, prefixes, suffix_order)
         
         # Get valid files
+        # TODO: Comment
         valid_files = get_valid_files(selected_path, prefixes, suffix_order)
 
         # Debugging: Print results
@@ -79,7 +81,10 @@ def main():
         
         if send_email in ['yes', 'y']:
             # Generate the HTML report
-            html_report = generate_html_report(missing_files,records_data, mismatch_files, valid_files)
+            html_report = generate_html_report(missing_files,
+                                               records_data, 
+                                               mismatch_files, 
+                                               valid_files)
             
             # Send the report via email
             email_subject = f"File analysis report - {selected_folder_name}"
