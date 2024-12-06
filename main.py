@@ -33,35 +33,32 @@ def main():
         selected_path = select_folder(uploads_folder_path, selection, folders)
         
         # Check for missing expected files
-        missing_files = check_expected_files(selected_path, expected_files)
+        missing_files = check_expected_files(selected_path, expected_files,prefixes)
             
         # Get the name of the selected folder
         selected_folder_name = os.path.basename(selected_path)
 
-        # Get file records
-        # TODO: Comment the line for no using
-        records_data = get_records_data(selected_path, prefixes, suffix_order)
+        records_data = get_records_data(selected_path, prefixes)
         
         # Get files with column mismatches
-        mismatch_files = get_mismatch_files(selected_path, expected_columns, prefixes, suffix_order)
+        mismatch_files = get_mismatch_files(selected_path, expected_columns, prefixes)
         
         # Get valid files
-        # TODO: Comment
-        valid_files = get_valid_files(selected_path, prefixes, suffix_order)
+        valid_files = get_valid_files(selected_path, prefixes)
 
         # Debugging: Print results
         print("=== REPORT PREVIEW IN TERMINAL ===")
         
-        #Print missing files
         if missing_files:
             print("Missing expected files:")
             for file in missing_files:
                 print(f" - {file}")
         else:
             print("All expected files are present.")
-        
+
         # Print Records Data
         print("\nRecords Data (Num records | File Name):")
+        print(len(records_data))
         for row in records_data:
             print(f"Number of records: {row[0]} | File name: {row[1]}")
         
@@ -81,10 +78,11 @@ def main():
         
         if send_email in ['yes', 'y']:
             # Generate the HTML report
-            html_report = generate_html_report(missing_files,
-                                               records_data, 
-                                               mismatch_files, 
-                                               valid_files)
+            html_report = generate_html_report(
+                                            missing_files,
+                                            records_data, 
+                                            mismatch_files, 
+                                            valid_files)
             
             # Send the report via email
             email_subject = f"File analysis report - {selected_folder_name}"
